@@ -26,3 +26,18 @@
 4. Review results with scores, reasoning, and improvements.
 
 > 🚀 **Future Enhancements:** Step refinement with user feedback and score normalization for higher accuracy.
+
+## High‑level architecture
+custom_metric_evaluator.py
+├─ run_model_octo_ai()         # Thin OctoAI chat completion wrapper
+├─ TestCaseParams              # String constants for dataframe keys
+├─ Eval_metric                 # Container for a single metric's config
+└─ CustomLLMEvaluator          # Orchestrates step-gen, step-improve, scoring
+   ├─ run_model()                        # Model call helper
+   ├─ generate_eval_steps()              # CoT → initial steps from criteria
+   ├─ generate_improving_steps()         # Refine steps (optional examples)
+   ├─ extract_improving_steps_response() # Parse JSON/regex → DataFrame
+   ├─ improved_steps_check()             # Cache per-metric refined steps
+   ├─ custom_evaluator_prompt()          # Score one test case
+   └─ custom_Eval()                      # Score a DataFrame of cases
+
